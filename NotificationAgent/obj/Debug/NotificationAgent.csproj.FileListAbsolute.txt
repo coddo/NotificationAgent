@@ -1,0 +1,9 @@
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.dll.config
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.dll
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.pdb
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.csprojResolveAssemblyReference.cache
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.HelloWorldForm.resources
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.Properties.Resources.resources
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.csproj.GenerateResource.Cache
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.dll
+C:\Users\codob\Desktop\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.pdb

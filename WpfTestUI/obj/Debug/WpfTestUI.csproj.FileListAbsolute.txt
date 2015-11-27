@@ -1,0 +1,16 @@
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\bin\Debug\WpfTestUI.exe.config
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.csprojResolveAssemblyReference.cache
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\MainWindow.g.cs
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\App.g.cs
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI_MarkupCompile.cache
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI_MarkupCompile.lref
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\bin\Debug\WpfTestUI.exe
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\bin\Debug\WpfTestUI.pdb
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\bin\Debug\NotificationAgent.dll
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\bin\Debug\NotificationAgent.pdb
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\MainWindow.baml
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.g.resources
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.Properties.Resources.resources
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.csproj.GenerateResource.Cache
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.exe
+C:\Users\codob\Desktop\NotificationAgent\WpfTestUI\obj\Debug\WpfTestUI.pdb
