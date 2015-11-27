@@ -8,11 +8,19 @@ namespace NotificationAgent.UI.Forms
 {
     public partial class NotificationPopup : GenericNotificationView, INotificationView
     {
+        #region Fields
+
+        private Guid id;
+
+        #endregion
+
         #region Constructors
 
-        public NotificationPopup(Point location, Stream popupSound, Color popupColor, Color textColor) : base(location, popupSound, popupColor, textColor)
+        public NotificationPopup(Stream popupSound, Color popupColor, Color textColor) : base(popupSound, popupColor, textColor)
         {
             InitializeComponent();
+
+            id = Guid.NewGuid();
         }
 
         #endregion
@@ -36,6 +44,18 @@ namespace NotificationAgent.UI.Forms
         #endregion
 
         #region Main functionality & interface implementation
+
+        public int Index { get; set; }
+
+        public bool IsEqual(INotificationView view)
+        {
+            if (view is NotificationPopup)
+            {
+                return this.id == (view as NotificationPopup).id;
+            }
+
+            return false;
+        }
 
         public async Task Show(string title, string description, Image image)
         {

@@ -12,14 +12,12 @@ namespace NotificationAgent.UI.Abstract
     {
         #region Constructors
 
-        public GenericNotificationView(Point location, Stream notificationSound, Color notificationColor, Color textColor)
+        public GenericNotificationView(Stream notificationSound, Color notificationColor, Color textColor)
         {
             this.SoundPlayer = new SoundPlayer(notificationSound);
 
             this.NotificationColor = notificationColor;
             this.TextColor = textColor;
-
-            this.Location = location;
         }
 
         #endregion
