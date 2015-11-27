@@ -37,14 +37,24 @@ namespace NotificationAgent.UI.Forms
 
         #region Main functionality & interface implementation
 
-        public async Task Show(string message, string details, Image image)
+        public async Task Show(string title, string description, Image image)
         {
-            throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                this.titleView.Text = title;
+                this.descriptionView.Text = description;
+                this.imageView.Image = image;
+
+                this.Show();
+            });
         }
 
         public async Task Hide()
         {
-            throw new NotImplementedException();
+            await Task.Run(() =>
+            {
+                this.Close();
+            });
         }
 
         #endregion
