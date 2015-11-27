@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace NotificationAgent.UI.Interfaces
+namespace NotificationAgent.UI.Abstract
 {
     public interface INotificationView
     {
