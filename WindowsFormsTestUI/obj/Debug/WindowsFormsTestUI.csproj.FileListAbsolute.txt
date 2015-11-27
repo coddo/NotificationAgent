@@ -1,0 +1,10 @@
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\bin\Debug\WindowsFormsTestUI.exe.config
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\bin\Debug\WindowsFormsTestUI.exe
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\bin\Debug\WindowsFormsTestUI.pdb
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\bin\Debug\NotificationAgent.dll
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\bin\Debug\NotificationAgent.pdb
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\obj\Debug\WindowsFormsTestUI.csprojResolveAssemblyReference.cache
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\obj\Debug\WindowsFormsTestUI.Properties.Resources.resources
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\obj\Debug\WindowsFormsTestUI.csproj.GenerateResource.Cache
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\obj\Debug\WindowsFormsTestUI.exe
+D:\Dropbox\Programming\C#\Programe\NotificationAgent\WindowsFormsTestUI\obj\Debug\WindowsFormsTestUI.pdb
