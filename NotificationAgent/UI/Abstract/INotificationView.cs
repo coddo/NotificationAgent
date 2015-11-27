@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 
 namespace NotificationAgent.UI.Abstract
 {
     public interface INotificationView
     {
-        void DisplayNotification(string message, string details, Image image);
+        Task DisplayNotification(string message, string details, Image image);
 
-        void CloseNotification();
+        Task CloseNotification();
     }
 }

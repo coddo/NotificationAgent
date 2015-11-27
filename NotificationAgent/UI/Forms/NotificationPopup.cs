@@ -37,12 +37,12 @@ namespace NotificationAgent.UI.Forms
 
         #region Main functionality & interface implementation
 
-        public void DisplayNotification(string message, string details, Image image)
+        public async Task DisplayNotification(string message, string details, Image image)
         {
             throw new NotImplementedException();
         }
 
-        public void CloseNotification()
+        public async Task CloseNotification()
         {
             throw new NotImplementedException();
         }
