@@ -1,8 +1,0 @@
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.dll.config
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.dll
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\bin\Debug\NotificationAgent.pdb
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.csprojResolveAssemblyReference.cache
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.Properties.Resources.resources
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.csproj.GenerateResource.Cache
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.dll
-D:\Dropbox\Programming\C#\Programe\NotificationAgent\NotificationAgent\obj\Debug\NotificationAgent.pdb
