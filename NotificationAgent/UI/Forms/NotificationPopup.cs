@@ -11,22 +11,21 @@ namespace NotificationAgent.UI.Forms
 {
     public partial class NotificationPopup : Form, INotificationView
     {
+        #region Private constants
+
+        private const string NOT_CONFIGURED_EXCEPTION_MESSAGE = "The behavior of the popups hasn't been configured!";
+
+        #endregion
+
         #region Static configuration fields
 
         private static Queue<NotificationPopup> _queuedPopupViews = new Queue<NotificationPopup>();
         private static NotificationPopup[] _activePopupViews = default(NotificationPopup[]);
-        private static int _popupsPositionX = default(int);
-        private static bool _isConfigured = false;
+
+        private static bool _isPositioningConfigured = false;
+        private static bool _isDesignConfigured = false;
 
         #endregion
-
-        public NotificationPopup()
-        {
-            InitializeComponent();
-
-            this.soundPlayer = new SoundPlayer();
-        }
-
 
         #region Private fields
 
@@ -34,31 +33,37 @@ namespace NotificationAgent.UI.Forms
 
         #endregion
 
-        #region Popup decoration properties
+        #region Static configuration properties
 
-        public Stream PopupSound
+        private static int _PopupPositionX { get; set; }
+
+        private static Stream _PopupSound { get; set; }
+
+        private static Color _PopupColor { get; set; }
+
+        private static Color _TextColor { get; set; }
+
+        private static bool _IsConfigured
         {
-            set
+            get
             {
-                this.soundPlayer.Stream = value;
+                return _isDesignConfigured && _isPositioningConfigured;
             }
         }
 
-        public Color PopupColor
-        {
-            set
-            {
-                this.BackColor = value;
-            }
-        }
+        #endregion
 
-        public Color TextColor
+        #region Constructors
+
+        public NotificationPopup()
         {
-            set
-            {
-                this.titleView.ForeColor = value;
-                this.descriptionView.ForeColor = value;
-            }
+            InitializeComponent();
+
+            this.soundPlayer = new SoundPlayer(_PopupSound);
+            this.BackColor = _PopupColor;
+
+            this.titleView.ForeColor = _TextColor;
+            this.descriptionView.ForeColor = _TextColor;
         }
 
         #endregion
@@ -109,26 +114,38 @@ namespace NotificationAgent.UI.Forms
 
         #endregion
 
-        #region Static configuration
+        #region Static configuration methods
 
-        private static async Task SetupPopupsEngine(Rectangle screenWorkingArea, Rectangle popUpArea)
+        public static async Task SetupPopupsPositioning(Rectangle screenWorkingArea, Rectangle popUpArea)
         {
             await Task.Run(() =>
             {
                 var rightMarginPointX = screenWorkingArea.X + screenWorkingArea.Width;
                 var spacingFromRightMargin = popUpArea.Width / 4;
-                NotificationPopup._popupsPositionX = rightMarginPointX - popUpArea.Width - spacingFromRightMargin;
+                _PopupPositionX = rightMarginPointX - popUpArea.Width - spacingFromRightMargin;
 
                 var maximumActivePopups = screenWorkingArea.Height / popUpArea.Height;
-                NotificationPopup._activePopupViews = new NotificationPopup[maximumActivePopups];
+                _activePopupViews = new NotificationPopup[maximumActivePopups];
 
-                NotificationPopup._isConfigured = true;
+                _isPositioningConfigured = true;
+            });
+        }
+
+        public static async Task SetupPopupsDesign(Color popupColor, Color textColor, Stream popupSound)
+        {
+            await Task.Run(() =>
+            {
+                _PopupColor = popupColor;
+                _TextColor = textColor;
+                _PopupSound = popupSound;
+
+                _isDesignConfigured = true;
             });
         }
 
         #endregion
 
-        #region Main functionality
+        #region Main functionality & interface implementation
 
         public void DisplayNotification(string message, string details, Image image)
         {
