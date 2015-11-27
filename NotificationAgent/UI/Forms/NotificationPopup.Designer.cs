@@ -1,4 +1,4 @@
-﻿namespace NotificationAgent.UI
+﻿namespace NotificationAgent.UI.Forms
 {
     partial class NotificationPopup
     {
