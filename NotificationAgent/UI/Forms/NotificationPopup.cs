@@ -10,7 +10,7 @@ namespace NotificationAgent.UI.Forms
     {
         #region Constructors
 
-        public NotificationPopup(Stream popupSound, Color popupColor, Color textColor) : base(popupSound, popupColor, textColor)
+        public NotificationPopup(Point location, Stream popupSound, Color popupColor, Color textColor) : base(location, popupSound, popupColor, textColor)
         {
             InitializeComponent();
         }
@@ -37,12 +37,12 @@ namespace NotificationAgent.UI.Forms
 
         #region Main functionality & interface implementation
 
-        public async Task DisplayNotification(string message, string details, Image image)
+        public async Task Show(string message, string details, Image image)
         {
             throw new NotImplementedException();
         }
 
-        public async Task CloseNotification()
+        public async Task Hide()
         {
             throw new NotImplementedException();
         }

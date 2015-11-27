@@ -5,8 +5,8 @@ namespace NotificationAgent.UI.Abstract
 {
     public interface INotificationView
     {
-        Task DisplayNotification(string message, string details, Image image);
+        Task Show(string message, string details, Image image);
 
-        Task CloseNotification();
+        Task Hide();
     }
 }
