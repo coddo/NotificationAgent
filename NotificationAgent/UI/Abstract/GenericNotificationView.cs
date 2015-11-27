@@ -1,10 +1,13 @@
-﻿using System.Drawing;
+﻿using NotificationAgent.UI.DesignerFixes;
+using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Windows.Forms;
 
 namespace NotificationAgent.UI.Abstract
 {
+    [TypeDescriptionProvider(typeof(AbstractFormDescriptionProvider<GenericNotificationView, Form>))] // Forms designer rendering fix for derived classes
     public abstract class GenericNotificationView : Form
     {
         #region Constructors
@@ -15,6 +18,7 @@ namespace NotificationAgent.UI.Abstract
 
             this.NotificationColor = notificationColor;
             this.TextColor = textColor;
+
             this.Location = location;
         }
 

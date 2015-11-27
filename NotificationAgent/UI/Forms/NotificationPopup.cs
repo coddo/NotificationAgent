@@ -51,8 +51,15 @@ namespace NotificationAgent.UI.Forms
 
         #region Event handlers
 
+        private void NotificationPopup_Load(object sender, EventArgs e)
+        {
+            this.BackColor = base.NotificationColor;
 
+            this.titleView.ForeColor = base.TextColor;
+            this.descriptionView.ForeColor = base.TextColor;
+        }
 
         #endregion
+
     }
 }
