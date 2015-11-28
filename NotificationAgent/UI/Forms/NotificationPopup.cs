@@ -69,20 +69,7 @@ namespace NotificationAgent.UI.Forms
 
         public void HideNotification()
         {
-            if (this.InvokeRequired)
-            {
-                if (this.IsHandleCreated && !this.IsDisposed)
-                {
-                    this.Invoke((MethodInvoker)(() =>
-                    {
-                        this.Close();
-                    }));
-                }
-            }
-            else
-            {
-                this.Close();
-            }
+            this.Close();
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿using NotificationAgent.UI.Abstract;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Linq;
 using NotificationAgent.UI.Forms;
@@ -13,7 +12,7 @@ namespace NotificationAgent.UI.DisplayManagers
     {
         #region Constants
 
-        private const int TIMER_ITERATION_INTERVAL = 50;
+        private const int TIMER_ITERATION_INTERVAL = 10;
 
         private const int TIMER_CLOSE_VIEW_INTERVAL = 5000;
 
@@ -121,8 +120,8 @@ namespace NotificationAgent.UI.DisplayManagers
 
         private void CloseActiveViewTimerCallback(NotificationPopup view)
         {
-            view.HideNotification();
             activeNotificationViews[view.Index] = null;
+            view.HideNotification();
         }
 
         #endregion
