@@ -114,9 +114,9 @@ namespace NotificationAgent.UI.DisplayManagers
 
             view.Index = index;
             activeNotificationViews[index] = view;
-            view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * (view.Index + 1));
 
             view.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
+            view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * (view.Index + 1));
         }
 
         private void CloseActiveViewTimerCallback(NotificationPopup view)
