@@ -37,26 +37,23 @@ namespace NotificationAgent
 
         #region Methods
 
-        public async Task SetupNotificationViewsDesign(Color notificationColor, Color textColor, Stream notificationSound)
+        public void SetupNotificationViewsDesign(Color notificationColor, Color textColor, Stream notificationSound)
         {
-            await Task.Run(() =>
-            {
-                this.NotificationColor = notificationColor;
-                this.TextColor = textColor;
-                this.NotificationSound = notificationSound;
-            });
+            this.NotificationColor = notificationColor;
+            this.TextColor = textColor;
+            this.NotificationSound = notificationSound;
         }
 
-        public async Task DisplayNotification(string title, string details, Image image)
+        public void DisplayNotification(string title, string details, Image image)
         {
-            var notification = (TNotificationView)Activator.CreateInstance(typeof(TNotificationView), new object[] { title, details, image });
+            var notification = (TNotificationView)Activator.CreateInstance(typeof(TNotificationView), NotificationSound, NotificationColor, TextColor);
 
             if (!displayManager.IsConfigured)
             {
-                await displayManager.SetupNotificationViewPositioning(notification.DisplayRectangle);
+                displayManager.SetupNotificationViewPositioning(notification.ClientRectangle);
             }
 
-            await displayManager.DisplayView(notification, title, details, image);
+            displayManager.DisplayView(notification, title, details, image);
         }
 
         #endregion

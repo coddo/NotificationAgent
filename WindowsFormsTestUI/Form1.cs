@@ -18,9 +18,9 @@ namespace WindowsFormsTestUI
         private int notificationIndex = 0;
         private NotificationsCenter<NotificationPopup, NotificationPopupDisplayConfigurator> notificationCenter;
 
-        private async void showNotificationButton_Click(object sender, EventArgs e)
+        private void showNotificationButton_Click(object sender, EventArgs e)
         {
-            await notificationCenter.DisplayNotification($"Title {notificationIndex}", $"Description {notificationIndex}", null);
+            notificationCenter.DisplayNotification($"Title {notificationIndex}", $"Description {notificationIndex}", null);
             notificationIndex++;
         }
     }

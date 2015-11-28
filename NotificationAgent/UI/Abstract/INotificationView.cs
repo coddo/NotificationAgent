@@ -9,8 +9,8 @@ namespace NotificationAgent.UI.Abstract
 
         bool IsEqual(INotificationView view);
 
-        Task ShowNotification(string title, string description, Image image);
+        void ShowNotification(string title, string description, Image image);
 
-        Task HideNotification();
+        void HideNotification();
     }
 }

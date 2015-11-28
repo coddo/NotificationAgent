@@ -9,13 +9,13 @@ namespace NotificationAgent.UI.Abstract
 
         bool IsConfigured { get; set; }
 
-        Task SetupNotificationViewPositioning(Rectangle notificationViewArea);
+        void SetupNotificationViewPositioning(Rectangle notificationViewArea);
 
         #endregion
 
         #region View positioning
 
-        Task DisplayView(TNotificationView view, string title, string description, Image image);
+        void DisplayView(TNotificationView view, string title, string description, Image image);
 
         #endregion
     }

@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NotificationAgent.UI.Forms
 {
@@ -27,18 +28,13 @@ namespace NotificationAgent.UI.Forms
 
         #region Overrides
 
-        protected async override void OnBackColorChanged(EventArgs e)
+        protected override void OnBackColorChanged(EventArgs e)
         {
-            var colorAdapterTask = Task.Run(() =>
-            {
-                this.imageView.BackColor = this.BackColor;
-                this.titleView.BackColor = this.BackColor;
-                this.descriptionView.BackColor = this.BackColor;
-            });
-
             base.OnBackColorChanged(e);
 
-            await colorAdapterTask;
+            this.imageView.BackColor = this.BackColor;
+            this.titleView.BackColor = this.BackColor;
+            this.descriptionView.BackColor = this.BackColor;
         }
 
         #endregion
@@ -57,29 +53,36 @@ namespace NotificationAgent.UI.Forms
             return false;
         }
 
-        public async Task ShowNotification(string title, string description, Image image)
+        public void ShowNotification(string title, string description, Image image)
         {
             if (SoundPlayer.Stream != null)
             {
-                SoundPlayer.PlaySync();
+                SoundPlayer.Play();
             }
 
-            await Task.Run(() =>
-            {
-                this.titleView.Text = title;
-                this.descriptionView.Text = description;
-                this.imageView.Image = image;
+            this.titleView.Text = title;
+            this.descriptionView.Text = description;
+            this.imageView.Image = image;
 
-                this.Show();
-            });
+            this.Show();
         }
 
-        public async Task HideNotification()
+        public void HideNotification()
         {
-            await Task.Run(() =>
+            if (this.InvokeRequired)
+            {
+                if (this.IsHandleCreated && !this.IsDisposed)
+                {
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        this.Close();
+                    }));
+                }
+            }
+            else
             {
                 this.Close();
-            });
+            }
         }
 
         #endregion
@@ -95,6 +98,5 @@ namespace NotificationAgent.UI.Forms
         }
 
         #endregion
-
     }
 }

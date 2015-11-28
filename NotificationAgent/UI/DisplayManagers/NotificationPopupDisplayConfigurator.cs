@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Linq;
-using Timer = System.Timers.Timer;
 using NotificationAgent.UI.Forms;
+using System;
 
 namespace NotificationAgent.UI.DisplayManagers
 {
@@ -15,7 +15,7 @@ namespace NotificationAgent.UI.DisplayManagers
 
         private const int TIMER_ITERATION_INTERVAL = 50;
 
-        private const int TIMER_CLOSE_VIEW_INTERVAL = 1000;
+        private const int TIMER_CLOSE_VIEW_INTERVAL = 5000;
 
         private const int VIEW_SPACING_COEFICIENT = 6;
 
@@ -32,9 +32,10 @@ namespace NotificationAgent.UI.DisplayManagers
 
         public NotificationPopupDisplayConfigurator()
         {
-            iterationTimer = new Timer(TIMER_ITERATION_INTERVAL);
+            iterationTimer = new Timer();
 
-            iterationTimer.Elapsed += IterateAndShowViewsTimerCallback;
+            iterationTimer.Interval = TIMER_ITERATION_INTERVAL;
+            iterationTimer.Tick += IterateAndShowViewsTimerCallback;
             iterationTimer.Enabled = true;
             iterationTimer.Start();
         }
@@ -51,78 +52,76 @@ namespace NotificationAgent.UI.DisplayManagers
 
         #region Configuration
 
-        public async Task SetupNotificationViewPositioning(Rectangle notificationViewArea)
+        public void SetupNotificationViewPositioning(Rectangle notificationViewArea)
         {
-            await Task.Run(() =>
-            {
-                var screenWorkingArea = Screen.PrimaryScreen.WorkingArea;
-                var rightMarginPointX = screenWorkingArea.X + screenWorkingArea.Width;
-                var spacingFromRightMargin = notificationViewArea.Width / VIEW_SPACING_COEFICIENT;
-                var spacingBetweenViews = notificationViewArea.Height / VIEW_SPACING_COEFICIENT;
+            var screenWorkingArea = Screen.PrimaryScreen.WorkingArea;
+            var rightMarginPointX = screenWorkingArea.X + screenWorkingArea.Width;
+            var spacingFromRightMargin = notificationViewArea.Width / VIEW_SPACING_COEFICIENT;
+            var spacingBetweenViews = notificationViewArea.Height / VIEW_SPACING_COEFICIENT;
 
-                NotificationViewHeight = notificationViewArea.Height + spacingBetweenViews;
-                NotificationPositionX = rightMarginPointX - notificationViewArea.Width - spacingFromRightMargin;
+            NotificationViewHeight = notificationViewArea.Height + spacingBetweenViews;
+            NotificationPositionX = rightMarginPointX - notificationViewArea.Width - spacingFromRightMargin;
 
-                var maximumActivePopups = screenWorkingArea.Height / notificationViewArea.Height - 1;
-                activeNotificationViews = new NotificationPopup[maximumActivePopups];
+            var maximumActivePopups = screenWorkingArea.Height / notificationViewArea.Height - 1;
+            activeNotificationViews = new NotificationPopup[maximumActivePopups];
 
-                IsConfigured = true;
-            });
+            IsConfigured = true;
         }
 
         #endregion
 
         #region View positioning
 
-        public async Task DisplayView(NotificationPopup view, string title, string description, Image image)
+        public void DisplayView(NotificationPopup view, string title, string description, Image image)
         {
-            await Task.Run(() =>
+            queuedNotificationViews.Enqueue(new QueueItem
             {
-                queuedNotificationViews.Enqueue(new QueueItem
-                {
-                    View = view,
-                    Title = title,
-                    Description = description,
-                    Image = image
-                });
-
-                var closeViewTimer = new Timer(TIMER_CLOSE_VIEW_INTERVAL);
-
-                closeViewTimer.Elapsed += delegate
-                {
-                    CloseActiveViewTimerCallback(view);
-                };
-
-                closeViewTimer.Enabled = true;
-                closeViewTimer.Start();
+                View = view,
+                Title = title,
+                Description = description,
+                Image = image
             });
+
+            var closeViewTimer = new Timer();
+
+            closeViewTimer.Interval = TIMER_CLOSE_VIEW_INTERVAL;
+            closeViewTimer.Tick += delegate
+            {
+                CloseActiveViewTimerCallback(view);
+            };
+
+            closeViewTimer.Enabled = true;
+            closeViewTimer.Start();
         }
 
         #endregion
 
         #region Timer callbacks
 
-        private async void IterateAndShowViewsTimerCallback(object sender, System.Timers.ElapsedEventArgs e)
+        private void IterateAndShowViewsTimerCallback(object sender, EventArgs e)
         {
             if (queuedNotificationViews.Count == 0)
                 return;
 
+            if (!activeNotificationViews.Any(v => v == null))
+                return;
+
             var queueItem = queuedNotificationViews.Dequeue();
             var view = queueItem.View;
-            for (int i = 0; i < activeNotificationViews.Length; i++)
-            {
-                view.Index = i;
-                view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * view.Index);
+            int index = 0;
 
-                await view.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
+            for (index = 0; index < activeNotificationViews.Length && activeNotificationViews[index] != null; index++) ;
 
-                activeNotificationViews[i] = view;
-            }
+            view.Index = index;
+            activeNotificationViews[index] = view;
+            view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * (view.Index + 1));
+
+            view.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
         }
 
-        private async void CloseActiveViewTimerCallback(NotificationPopup view)
+        private void CloseActiveViewTimerCallback(NotificationPopup view)
         {
-            await view.HideNotification();
+            view.HideNotification();
             activeNotificationViews[view.Index] = null;
         }
 
