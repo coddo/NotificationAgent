@@ -1,4 +1,5 @@
 ﻿using NotificationAgent.UI.Abstract;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,12 +10,6 @@ namespace NotificationAgent
         where TNotificationView : GenericNotificationView, INotificationView
         where TDisplayConfigurator : IDisplayConfigurator<TNotificationView>, new()
     {
-        #region Private constants
-
-        private const string NOT_CONFIGURED_EXCEPTION_MESSAGE = "The behavior of the popups hasn't been configured!";
-
-        #endregion
-
         #region Fields
 
         private TDisplayConfigurator displayManager;
@@ -40,16 +35,23 @@ namespace NotificationAgent
 
         #endregion
 
-        #region configuration methods
+        #region Methods
 
         public async Task SetupNotificationViewsDesign(Color notificationColor, Color textColor, Stream notificationSound)
         {
             await Task.Run(() =>
             {
-                NotificationColor = notificationColor;
-                TextColor = textColor;
-                NotificationSound = notificationSound;
+                this.NotificationColor = notificationColor;
+                this.TextColor = textColor;
+                this.NotificationSound = notificationSound;
             });
+        }
+
+        public async Task DisplayNotification(string title, string details, Image image)
+        {
+            var notification = (TNotificationView)Activator.CreateInstance(typeof(TNotificationView), new object[] { title, details, image });
+
+            await displayManager.DisplayView(notification, title, details, image);
         }
 
         #endregion

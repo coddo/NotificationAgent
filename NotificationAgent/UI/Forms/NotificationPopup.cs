@@ -57,8 +57,13 @@ namespace NotificationAgent.UI.Forms
             return false;
         }
 
-        public async Task Show(string title, string description, Image image)
+        public async Task ShowNotification(string title, string description, Image image)
         {
+            if (SoundPlayer.Stream != null)
+            {
+                SoundPlayer.PlaySync();
+            }
+
             await Task.Run(() =>
             {
                 this.titleView.Text = title;
@@ -69,7 +74,7 @@ namespace NotificationAgent.UI.Forms
             });
         }
 
-        public async Task Hide()
+        public async Task HideNotification()
         {
             await Task.Run(() =>
             {
