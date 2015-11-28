@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using NotificationAgent;
+using NotificationAgent.UI.DisplayManagers;
+using NotificationAgent.UI.Forms;
 
 namespace WindowsFormsTestUI
 {
@@ -15,6 +11,17 @@ namespace WindowsFormsTestUI
         public Form1()
         {
             InitializeComponent();
+
+            notificationCenter = new NotificationsCenter<NotificationPopup, NotificationPopupDisplayConfigurator>();
+        }
+
+        private int notificationIndex = 0;
+        private NotificationsCenter<NotificationPopup, NotificationPopupDisplayConfigurator> notificationCenter;
+
+        private async void showNotificationButton_Click(object sender, EventArgs e)
+        {
+            await notificationCenter.DisplayNotification($"Title {notificationIndex}", $"Description {notificationIndex}", null);
+            notificationIndex++;
         }
     }
 }

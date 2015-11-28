@@ -28,12 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.showNotificationButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // showNotificationButton
+            // 
+            this.showNotificationButton.Location = new System.Drawing.Point(50, 71);
+            this.showNotificationButton.Name = "showNotificationButton";
+            this.showNotificationButton.Size = new System.Drawing.Size(163, 83);
+            this.showNotificationButton.TabIndex = 0;
+            this.showNotificationButton.Text = "Show Notification";
+            this.showNotificationButton.UseVisualStyleBackColor = true;
+            this.showNotificationButton.Click += new System.EventHandler(this.showNotificationButton_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.showNotificationButton);
+            this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button showNotificationButton;
     }
 }
 
