@@ -51,6 +51,11 @@ namespace NotificationAgent
         {
             var notification = (TNotificationView)Activator.CreateInstance(typeof(TNotificationView), new object[] { title, details, image });
 
+            if (!displayManager.IsConfigured)
+            {
+                await displayManager.SetupNotificationViewPositioning(notification.DisplayRectangle);
+            }
+
             await displayManager.DisplayView(notification, title, details, image);
         }
 

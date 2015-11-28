@@ -13,9 +13,11 @@ namespace NotificationAgent.UI.DisplayManagers
     {
         #region Constants
 
-        private const int TIMER_ITERATION_INTERVAL = 100;
+        private const int TIMER_ITERATION_INTERVAL = 50;
 
         private const int TIMER_CLOSE_VIEW_INTERVAL = 1000;
+
+        private const int VIEW_SPACING_COEFICIENT = 6;
 
         #endregion
 
@@ -55,11 +57,13 @@ namespace NotificationAgent.UI.DisplayManagers
             {
                 var screenWorkingArea = Screen.PrimaryScreen.WorkingArea;
                 var rightMarginPointX = screenWorkingArea.X + screenWorkingArea.Width;
-                var spacingFromRightMargin = notificationViewArea.Width / 4;
+                var spacingFromRightMargin = notificationViewArea.Width / VIEW_SPACING_COEFICIENT;
+                var spacingBetweenViews = notificationViewArea.Height / VIEW_SPACING_COEFICIENT;
 
+                NotificationViewHeight = notificationViewArea.Height + spacingBetweenViews;
                 NotificationPositionX = rightMarginPointX - notificationViewArea.Width - spacingFromRightMargin;
 
-                var maximumActivePopups = screenWorkingArea.Height / notificationViewArea.Height;
+                var maximumActivePopups = screenWorkingArea.Height / notificationViewArea.Height - 1;
                 activeNotificationViews = new NotificationPopup[maximumActivePopups];
 
                 IsConfigured = true;
@@ -69,14 +73,6 @@ namespace NotificationAgent.UI.DisplayManagers
         #endregion
 
         #region View positioning
-
-        public async Task<bool> HasScreenAvailableSpace()
-        {
-            return await new Task<bool>(() =>
-            {
-                return activeNotificationViews.Any(v => v == null);
-            });
-        }
 
         public async Task DisplayView(NotificationPopup view, string title, string description, Image image)
         {
@@ -112,12 +108,15 @@ namespace NotificationAgent.UI.DisplayManagers
                 return;
 
             var queueItem = queuedNotificationViews.Dequeue();
+            var view = queueItem.View;
             for (int i = 0; i < activeNotificationViews.Length; i++)
             {
-                queueItem.View.Index = i;
-                activeNotificationViews[i] = queueItem.View;
+                view.Index = i;
+                view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * view.Index);
 
-                await queueItem.View.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
+                await view.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
+
+                activeNotificationViews[i] = view;
             }
         }
 
