@@ -1,97 +1,26 @@
-﻿using NotificationAgent.UI.Interfaces;
+﻿using NotificationAgent.UI.Abstract;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Media;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace NotificationAgent.UI.Forms
 {
-    public partial class NotificationPopup : Form, INotificationView
+    public partial class NotificationPopup : GenericNotificationView, INotificationView
     {
-        #region Private constants
+        #region Fields
 
-        private const string NOT_CONFIGURED_EXCEPTION_MESSAGE = "The behavior of the popups hasn't been configured!";
-
-        #endregion
-
-        #region Static configuration fields
-
-        private static Queue<NotificationPopup> _queuedPopupViews = new Queue<NotificationPopup>();
-        private static NotificationPopup[] _activePopupViews = default(NotificationPopup[]);
-
-        private static bool _isPositioningConfigured = false;
-        private static bool _isDesignConfigured = false;
-
-        #endregion
-
-        #region Private fields
-
-        private readonly SoundPlayer soundPlayer;
-
-        #endregion
-
-        #region Static configuration properties
-
-        private static int _PopupPositionX { get; set; }
-
-        private static Stream _PopupSound { get; set; }
-
-        private static Color _PopupColor { get; set; }
-
-        private static Color _TextColor { get; set; }
-
-        private static bool _IsConfigured
-        {
-            get
-            {
-                return _isDesignConfigured && _isPositioningConfigured;
-            }
-        }
+        private Guid id;
 
         #endregion
 
         #region Constructors
 
-        public NotificationPopup()
+        public NotificationPopup(Stream popupSound, Color popupColor, Color textColor) : base(popupSound, popupColor, textColor)
         {
             InitializeComponent();
 
-            this.soundPlayer = new SoundPlayer(_PopupSound);
-            this.BackColor = _PopupColor;
-
-            this.titleView.ForeColor = _TextColor;
-            this.descriptionView.ForeColor = _TextColor;
-        }
-
-        #endregion
-
-        #region UI Display properties
-
-        public Image Image
-        {
-            set
-            {
-                this.imageView.Image = value;
-            }
-        }
-
-        public string Title
-        {
-            set
-            {
-                this.titleView.Text = value;
-            }
-        }
-
-        public string Description
-        {
-            set
-            {
-                this.descriptionView.Text = value;
-            }
+            id = Guid.NewGuid();
         }
 
         #endregion
@@ -114,49 +43,58 @@ namespace NotificationAgent.UI.Forms
 
         #endregion
 
-        #region Static configuration methods
-
-        public static async Task SetupPopupsPositioning(Rectangle screenWorkingArea, Rectangle popUpArea)
-        {
-            await Task.Run(() =>
-            {
-                var rightMarginPointX = screenWorkingArea.X + screenWorkingArea.Width;
-                var spacingFromRightMargin = popUpArea.Width / 4;
-                _PopupPositionX = rightMarginPointX - popUpArea.Width - spacingFromRightMargin;
-
-                var maximumActivePopups = screenWorkingArea.Height / popUpArea.Height;
-                _activePopupViews = new NotificationPopup[maximumActivePopups];
-
-                _isPositioningConfigured = true;
-            });
-        }
-
-        public static async Task SetupPopupsDesign(Color popupColor, Color textColor, Stream popupSound)
-        {
-            await Task.Run(() =>
-            {
-                _PopupColor = popupColor;
-                _TextColor = textColor;
-                _PopupSound = popupSound;
-
-                _isDesignConfigured = true;
-            });
-        }
-
-        #endregion
-
         #region Main functionality & interface implementation
 
-        public void DisplayNotification(string message, string details, Image image)
+        public int Index { get; set; }
+
+        public bool IsEqual(INotificationView view)
         {
-            throw new NotImplementedException();
+            if (view is NotificationPopup)
+            {
+                return this.id == (view as NotificationPopup).id;
+            }
+
+            return false;
         }
 
-        public void CloseNotification()
+        public async Task ShowNotification(string title, string description, Image image)
         {
-            throw new NotImplementedException();
+            if (SoundPlayer.Stream != null)
+            {
+                SoundPlayer.PlaySync();
+            }
+
+            await Task.Run(() =>
+            {
+                this.titleView.Text = title;
+                this.descriptionView.Text = description;
+                this.imageView.Image = image;
+
+                this.Show();
+            });
+        }
+
+        public async Task HideNotification()
+        {
+            await Task.Run(() =>
+            {
+                this.Close();
+            });
         }
 
         #endregion
+
+        #region Event handlers
+
+        private void NotificationPopup_Load(object sender, EventArgs e)
+        {
+            this.BackColor = base.NotificationColor;
+
+            this.titleView.ForeColor = base.TextColor;
+            this.descriptionView.ForeColor = base.TextColor;
+        }
+
+        #endregion
+
     }
 }

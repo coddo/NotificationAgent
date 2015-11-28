@@ -84,6 +84,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "NotificationPopup";
             this.Text = "NotificationPopup";
+            this.Load += new System.EventHandler(this.NotificationPopup_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
