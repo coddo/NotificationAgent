@@ -80,10 +80,15 @@ namespace NotificationAgent.UI.DisplayManagers
                 Description = description,
                 Image = image
             });
+        }
 
-            var closeViewTimer = new Timer();
-            closeViewTimer.Interval = TIMER_CLOSE_VIEW_INTERVAL;
+        #endregion
 
+        #region Timer callbacks
+
+        private void StartActiveViewTimer(NotificationPopup view)
+        {
+            var closeViewTimer = new Timer() { Interval = TIMER_CLOSE_VIEW_INTERVAL };
             closeViewTimer.Tick += delegate
             {
                 CloseActiveViewTimerCallback(view, closeViewTimer);
@@ -92,10 +97,6 @@ namespace NotificationAgent.UI.DisplayManagers
             closeViewTimer.Enabled = true;
             closeViewTimer.Start();
         }
-
-        #endregion
-
-        #region Timer callbacks
 
         private void IterateAndShowViewsTimerCallback(object sender, EventArgs e)
         {
@@ -116,6 +117,8 @@ namespace NotificationAgent.UI.DisplayManagers
 
             view.ShowNotification(queueItem.Title, queueItem.Description, queueItem.Image);
             view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * (view.Index + 1));
+
+            StartActiveViewTimer(view);
         }
 
         private void CloseActiveViewTimerCallback(NotificationPopup view, Timer timer)
