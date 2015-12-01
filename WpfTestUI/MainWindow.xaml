@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Button Name="displayNotificationButton" Content="Display notification" Click="displayNotificationButton_Click"/>
     </Grid>
 </Window>
