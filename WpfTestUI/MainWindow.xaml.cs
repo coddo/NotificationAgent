@@ -14,12 +14,12 @@ namespace WpfTestUI
         {
             InitializeComponent();
 
-            var displayManager = new NotificationPopupDisplayConfigurator<NotificationPopup>();
-            notificationCenter = new NotificationsCenter<NotificationPopup>(displayManager);
+            var displayManager = new VerticalViewDisplayManager<StandardPopup>();
+            notificationCenter = new NotificationsCenter<StandardPopup>(displayManager);
         }
 
         private int notificationIndex = 0;
-        private NotificationsCenter<NotificationPopup> notificationCenter;
+        private NotificationsCenter<StandardPopup> notificationCenter;
 
         private void displayNotificationButton_Click(object sender, RoutedEventArgs e)
         {

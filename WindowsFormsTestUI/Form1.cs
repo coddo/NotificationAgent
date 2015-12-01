@@ -12,12 +12,12 @@ namespace WindowsFormsTestUI
         {
             InitializeComponent();
 
-            var displayManager = new NotificationPopupDisplayConfigurator<NotificationPopup>();
-            notificationCenter = new NotificationsCenter<NotificationPopup>(displayManager);
+            var displayManager = new VerticalViewDisplayManager<StandardPopup>();
+            notificationCenter = new NotificationsCenter<StandardPopup>(displayManager);
         }
 
         private int notificationIndex = 0;
-        private NotificationsCenter<NotificationPopup> notificationCenter;
+        private NotificationsCenter<StandardPopup> notificationCenter;
 
         private void showNotificationButton_Click(object sender, EventArgs e)
         {

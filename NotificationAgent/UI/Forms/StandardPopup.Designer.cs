@@ -1,6 +1,6 @@
 ﻿namespace NotificationAgent.UI.Forms
 {
-    partial class NotificationPopup
+    partial class StandardPopup
     {
         /// <summary>
         /// Required designer variable.

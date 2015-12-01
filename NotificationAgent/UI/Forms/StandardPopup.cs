@@ -2,12 +2,10 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace NotificationAgent.UI.Forms
 {
-    public partial class NotificationPopup : GenericNotificationView, INotificationView
+    public sealed partial class StandardPopup : GenericNotificationView, INotificationView
     {
         #region Fields
 
@@ -17,7 +15,7 @@ namespace NotificationAgent.UI.Forms
 
         #region Constructors
 
-        public NotificationPopup(Stream popupSound, Color popupColor, Color textColor) : base(popupSound, popupColor, textColor)
+        public StandardPopup(Stream popupSound, Color popupColor, Color textColor) : base(popupSound, popupColor, textColor)
         {
             InitializeComponent();
 
@@ -45,9 +43,9 @@ namespace NotificationAgent.UI.Forms
 
         public bool IsEqual(INotificationView view)
         {
-            if (view is NotificationPopup)
+            if (view is StandardPopup)
             {
-                return this.id == (view as NotificationPopup).id;
+                return this.id == (view as StandardPopup).id;
             }
 
             return false;

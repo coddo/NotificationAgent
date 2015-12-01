@@ -7,7 +7,7 @@ using System;
 
 namespace NotificationAgent.UI.DisplayManagers
 {
-    public class NotificationPopupDisplayConfigurator<TNotificationView> : IDisplayConfigurator<TNotificationView> where TNotificationView : GenericNotificationView, INotificationView
+    public sealed class VerticalViewDisplayManager<TNotificationView> : IDisplayConfigurator<TNotificationView> where TNotificationView : GenericNotificationView, INotificationView
     {
         #region Constants
 
@@ -28,7 +28,7 @@ namespace NotificationAgent.UI.DisplayManagers
 
         #endregion
 
-        public NotificationPopupDisplayConfigurator()
+        public VerticalViewDisplayManager()
         {
             iterationTimer = new Timer() { Interval = TIMER_ITERATION_INTERVAL };
             iterationTimer.Tick += IterateAndShowViewsTimerCallback;
