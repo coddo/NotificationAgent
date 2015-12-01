@@ -2,25 +2,22 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace NotificationAgent
 {
-    public class NotificationsCenter<TNotificationView, TDisplayConfigurator>
-        where TNotificationView : GenericNotificationView, INotificationView
-        where TDisplayConfigurator : IDisplayConfigurator<TNotificationView>, new()
+    public class NotificationsCenter<TNotificationView> where TNotificationView : GenericNotificationView, INotificationView
     {
         #region Fields
 
-        private TDisplayConfigurator displayManager;
+        private IDisplayConfigurator<TNotificationView> displayManager;
 
         #endregion
 
         #region Constructors
 
-        public NotificationsCenter()
+        public NotificationsCenter(IDisplayConfigurator<TNotificationView> displayManager)
         {
-            this.displayManager = new TDisplayConfigurator();
+            this.displayManager = displayManager;
         }
 
         #endregion

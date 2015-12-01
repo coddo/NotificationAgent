@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
-using NotificationAgent.UI.Forms;
 using System;
 
 namespace NotificationAgent.UI.DisplayManagers
 {
-    public class NotificationPopupDisplayConfigurator : IDisplayConfigurator<NotificationPopup>
+    public class NotificationPopupDisplayConfigurator<TNotificationView> : IDisplayConfigurator<TNotificationView> where TNotificationView : GenericNotificationView, INotificationView
     {
         #region Constants
 
@@ -23,7 +22,7 @@ namespace NotificationAgent.UI.DisplayManagers
         #region Fields
 
         private Queue<QueueItem> queuedNotificationViews = new Queue<QueueItem>();
-        private NotificationPopup[] activeNotificationViews = default(NotificationPopup[]);
+        private TNotificationView[] activeNotificationViews = default(TNotificationView[]);
 
         private Timer iterationTimer;
 
@@ -31,10 +30,9 @@ namespace NotificationAgent.UI.DisplayManagers
 
         public NotificationPopupDisplayConfigurator()
         {
-            iterationTimer = new Timer();
-
-            iterationTimer.Interval = TIMER_ITERATION_INTERVAL;
+            iterationTimer = new Timer() { Interval = TIMER_ITERATION_INTERVAL };
             iterationTimer.Tick += IterateAndShowViewsTimerCallback;
+
             iterationTimer.Enabled = true;
             iterationTimer.Start();
         }
@@ -62,7 +60,7 @@ namespace NotificationAgent.UI.DisplayManagers
             NotificationPositionX = rightMarginPointX - notificationViewArea.Width - spacingFromRightMargin;
 
             var maximumActivePopups = screenWorkingArea.Height / notificationViewArea.Height - 1;
-            activeNotificationViews = new NotificationPopup[maximumActivePopups];
+            activeNotificationViews = new TNotificationView[maximumActivePopups];
 
             IsConfigured = true;
         }
@@ -71,7 +69,7 @@ namespace NotificationAgent.UI.DisplayManagers
 
         #region View positioning
 
-        public void DisplayView(NotificationPopup view, string title, string description, Image image)
+        public void DisplayView(TNotificationView view, string title, string description, Image image)
         {
             queuedNotificationViews.Enqueue(new QueueItem
             {
@@ -86,7 +84,7 @@ namespace NotificationAgent.UI.DisplayManagers
 
         #region Timer callbacks
 
-        private void StartActiveViewTimer(NotificationPopup view)
+        private void StartActiveViewTimer(TNotificationView view)
         {
             var closeViewTimer = new Timer() { Interval = TIMER_CLOSE_VIEW_INTERVAL };
             closeViewTimer.Tick += delegate
@@ -121,7 +119,7 @@ namespace NotificationAgent.UI.DisplayManagers
             StartActiveViewTimer(view);
         }
 
-        private void CloseActiveViewTimerCallback(NotificationPopup view, Timer timer)
+        private void CloseActiveViewTimerCallback(TNotificationView view, Timer timer)
         {
             timer.Stop();
             timer.Enabled = false;
@@ -136,7 +134,7 @@ namespace NotificationAgent.UI.DisplayManagers
 
         private class QueueItem
         {
-            public NotificationPopup View { get; set; }
+            public TNotificationView View { get; set; }
 
             public string Title { get; set; }
 
