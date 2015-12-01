@@ -82,11 +82,11 @@ namespace NotificationAgent.UI.DisplayManagers
             });
 
             var closeViewTimer = new Timer();
-
             closeViewTimer.Interval = TIMER_CLOSE_VIEW_INTERVAL;
+
             closeViewTimer.Tick += delegate
             {
-                CloseActiveViewTimerCallback(view);
+                CloseActiveViewTimerCallback(view, closeViewTimer);
             };
 
             closeViewTimer.Enabled = true;
@@ -118,8 +118,11 @@ namespace NotificationAgent.UI.DisplayManagers
             view.Location = new Point(this.NotificationPositionX, Screen.PrimaryScreen.WorkingArea.Height - this.NotificationViewHeight * (view.Index + 1));
         }
 
-        private void CloseActiveViewTimerCallback(NotificationPopup view)
+        private void CloseActiveViewTimerCallback(NotificationPopup view, Timer timer)
         {
+            timer.Stop();
+            timer.Enabled = false;
+
             activeNotificationViews[view.Index] = null;
             view.HideNotification();
         }
